@@ -4,7 +4,7 @@ const todoControl = document.querySelector('.todo-control'),
       let todoList = document.querySelector('.todo-list');
       const todoCompleted = document.querySelector('.todo-completed'),
       todoRemove = document.querySelector('.todo-remove'),
-      textTodo = document.querySelector('.text-todo')
+      textTodo = document.querySelector('.text-todo');
 
 let todoData = [];
 let arr;
@@ -26,10 +26,10 @@ const render = function() {
         }else{
             todoList.append(li);
         }
-    //     const todoRemove = li.querySelector('.todo-remove');
-    //     todoRemove.addEventListener('click',function(){
-    //         li.remove()
-    // });
+         const todoRemove = li.querySelector('.todo-remove');
+         todoRemove.addEventListener('click',function(){
+             li.remove();
+     });
 
         const btnTodoCompleted = li.querySelector('.todo-complete');
         btnTodoCompleted.addEventListener('click',function(){
@@ -54,8 +54,4 @@ todoControl.addEventListener('submit', function(event){
     }
 }
 );
-todoControl.addEventListener('click',function (){
-    todoList.parentNode.removeChild(todoList)
-  });
-
 
