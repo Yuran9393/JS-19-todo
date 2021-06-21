@@ -1,19 +1,15 @@
 'use strict';
 const todoControl = document.querySelector('.todo-control'),
-      headerInput = document.querySelector('.header-input');
-      let todoList = document.querySelector('.todo-list');
-      const todoCompleted = document.querySelector('.todo-completed'),
-      todoRemove = document.querySelector('.todo-remove'),
-      textTodo = document.querySelector('.text-todo');
-
+headerInput = document.querySelector('.header-input'),
+todoList = document.querySelector('.todo-list'),
+todoCompleted = document.querySelector('.todo-completed'),
+todoRemove = document.querySelector('.todo-remove');
 let todoData = [];
-let arr;
 
 const render = function() {
     todoList.textContent = '';
     todoCompleted.textContent = '';
-
-    todoData.forEach(function(item){
+    todoData.forEach(function(item,index){
         const li = document.createElement('li');
         li.classList.add('todo-item');
         li.innerHTML = '<span class="text-todo">' + item.value + '</span>' +
@@ -26,21 +22,24 @@ const render = function() {
         }else{
             todoList.append(li);
         }
+        localStorage.setItem('data', JSON.stringify(todoData));
          const todoRemove = li.querySelector('.todo-remove');
          todoRemove.addEventListener('click',function(){
-             li.remove();
+             todoData.splice(index,1);
+             localStorage.setItem('data', JSON.stringify(todoData));
+             render();
      });
-
         const btnTodoCompleted = li.querySelector('.todo-complete');
         btnTodoCompleted.addEventListener('click',function(){
             item.completed = !item.completed;
+            localStorage.setItem('data', JSON.stringify(todoData));
             render();
         });
     });
 };
+
 todoControl.addEventListener('submit', function(event){
     event.preventDefault();
- 
     if(headerInput.value === '') {
         alert("error");
     } else {
@@ -50,8 +49,15 @@ todoControl.addEventListener('submit', function(event){
         };
         todoData.push(newTodo);
         headerInput.value = '';  
+        localStorage.setItem('data', JSON.stringify(todoData));
         render();
     }
 }
 );
 
+if (localStorage.getItem("data")) {
+    todoData = JSON.parse(localStorage.getItem("data"));
+    render();
+} else {
+    todoData = [];
+    }
